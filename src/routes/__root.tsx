@@ -9,6 +9,8 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 
 function NotFoundComponent() {
   return (
@@ -113,7 +115,13 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
+      <div className="flex min-h-screen flex-col bg-background font-sans antialiased">
+        <Header />
+        <main className="flex-1">
+          <Outlet />
+        </main>
+        <Footer />
+      </div>
     </QueryClientProvider>
   );
 }
