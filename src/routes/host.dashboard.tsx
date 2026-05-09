@@ -234,6 +234,7 @@ function HostDashboard() {
           <TabsTrigger value="upcoming">Upcoming ({upcoming.length})</TabsTrigger>
           <TabsTrigger value="past">Past ({past.length})</TabsTrigger>
           <TabsTrigger value="drafts">Drafts ({drafts.length})</TabsTrigger>
+          <TabsTrigger value="team">Team</TabsTrigger>
         </TabsList>
         <TabsContent value="upcoming" className="mt-6">
           <EventList
@@ -267,6 +268,9 @@ function HostDashboard() {
             onDuplicate={handleDuplicate}
             onExport={handleExportCsv}
           />
+        </TabsContent>
+        <TabsContent value="team" className="mt-6">
+          {current && <TeamSection hostId={current.id} isOwner={canEdit} />}
         </TabsContent>
       </Tabs>
     </section>
