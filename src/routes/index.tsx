@@ -308,6 +308,9 @@ function EventCardItem({ event, myStatus }: { event: EventCard; myStatus?: RsvpS
               Ended
             </Badge>
           )}
+          {myStatus && myStatus !== "cancelled" && (
+            <StatusBadge status={myStatus} />
+          )}
         </div>
         <CardContent className="space-y-3 p-5">
           <div className="text-xs font-medium text-primary">
