@@ -129,6 +129,16 @@ export function EventGallery({
                   {p.status === "pending" ? "Pending review" : "Rejected"}
                 </Badge>
               )}
+              {userId && p.status === "approved" && p.uploader_id !== userId && (
+                <div className="absolute right-2 top-2">
+                  <ReportButton
+                    targetType="photo"
+                    targetId={p.id}
+                    userId={userId}
+                    className="h-8 w-8 rounded-lg bg-background/90 hover:bg-background"
+                  />
+                </div>
+              )}
             </figure>
           ))}
         </div>
