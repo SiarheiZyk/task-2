@@ -447,6 +447,24 @@ export type Database = {
         Args: { _event_id: string; _user_id: string }
         Returns: boolean
       }
+      cancel_rsvp: { Args: { _rsvp_id: string }; Returns: undefined }
+      create_rsvp: {
+        Args: { _event_id: string }
+        Returns: {
+          created_at: string
+          event_id: string
+          id: string
+          status: Database["public"]["Enums"]["rsvp_status"]
+          user_id: string
+          waitlist_position: number | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "rsvps"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       is_event_host_member: {
         Args: { _event_id: string; _user_id: string }
         Returns: boolean
