@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { TicketCard } from "@/components/TicketCard";
 
 type EventRow = {
   id: string;
@@ -115,6 +116,37 @@ function useMyRsvp(eventId: string, userId?: string) {
   });
 }
 
+function useMyTicket(rsvpId: string | undefined) {
+  return useQuery({
+    queryKey: ["my-ticket", rsvpId],
+    enabled: !!rsvpId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("tickets")
+        .select("id, code")
+        .eq("rsvp_id", rsvpId!)
+        .maybeSingle();
+      if (error) throw error;
+      return data as { id: string; code: string } | null;
+    },
+  });
+}
+
+function useMyProfileName(userId: string | undefined) {
+  return useQuery({
+    queryKey: ["profile-name", userId],
+    enabled: !!userId,
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("profiles")
+        .select("name")
+        .eq("id", userId!)
+        .maybeSingle();
+      return data?.name ?? "";
+    },
+  });
+}
+
 function useIsHostMember(hostId: string | undefined, userId: string | undefined) {
   return useQuery({
     queryKey: ["is-host-member", hostId, userId],
@@ -147,6 +179,10 @@ function EventPage() {
   const { data: event, isLoading, error } = useEvent(id);
   const { data: goingCount } = useGoingCount(id);
   const { data: myRsvp } = useMyRsvp(id, user?.id);
+  const { data: myTicket } = useMyTicket(
+    myRsvp?.status === "going" ? myRsvp.id : undefined,
+  );
+  const { data: attendeeName } = useMyProfileName(user?.id);
   const { data: isMember } = useIsHostMember(event?.host_id, user?.id);
   const [submitting, setSubmitting] = useState(false);
 
@@ -155,6 +191,24 @@ function EventPage() {
     const end = event.end_at ? new Date(event.end_at) : new Date(event.start_at);
     return end < new Date();
   }, [event]);
+
+  // Realtime: refetch counts and own RSVP when rsvps change for this event
+  useEffect(() => {
+    const channel = supabase
+      .channel(`event-rsvps-${id}`)
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "rsvps", filter: `event_id=eq.${id}` },
+        () => {
+          qc.invalidateQueries({ queryKey: ["event-going-count", id] });
+          qc.invalidateQueries({ queryKey: ["my-rsvp", id] });
+        },
+      )
+      .subscribe();
+    return () => {
+      void supabase.removeChannel(channel);
+    };
+  }, [id, qc]);
 
   // Auto-redirect for drafts/private when not a member
   useEffect(() => {
@@ -178,20 +232,32 @@ function EventPage() {
       return;
     }
     setSubmitting(true);
-    const atCapacity = event.capacity != null && (goingCount ?? 0) >= event.capacity;
-    const { error: insErr } = await supabase.from("rsvps").insert({
-      event_id: id,
-      user_id: user.id,
-      status: atCapacity ? "waitlisted" : "going",
-    });
+    const { data, error: rpcErr } = await supabase.rpc("create_rsvp", { _event_id: id });
     setSubmitting(false);
-    if (insErr) {
-      toast.error(insErr.message);
+    if (rpcErr) {
+      toast.error(rpcErr.message);
       return;
     }
-    toast.success(atCapacity ? "Added to waitlist" : "You're going!");
+    const status = (data as { status?: string } | null)?.status;
+    toast.success(status === "waitlisted" ? "Added to waitlist" : "You're going!");
     qc.invalidateQueries({ queryKey: ["my-rsvp", id] });
     qc.invalidateQueries({ queryKey: ["event-going-count", id] });
+    qc.invalidateQueries({ queryKey: ["my-ticket"] });
+  };
+
+  const handleCancel = async () => {
+    if (!myRsvp) return;
+    setSubmitting(true);
+    const { error: rpcErr } = await supabase.rpc("cancel_rsvp", { _rsvp_id: myRsvp.id });
+    setSubmitting(false);
+    if (rpcErr) {
+      toast.error(rpcErr.message);
+      return;
+    }
+    toast.success("RSVP cancelled");
+    qc.invalidateQueries({ queryKey: ["my-rsvp", id] });
+    qc.invalidateQueries({ queryKey: ["event-going-count", id] });
+    qc.invalidateQueries({ queryKey: ["my-ticket"] });
   };
 
   const handleCancel = async () => {
