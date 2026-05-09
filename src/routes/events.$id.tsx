@@ -500,6 +500,38 @@ function safeFormat(iso: string, tz: string, pattern: string) {
   }
 }
 
+function ShareButton({ title }: { title: string }) {
+  const handleShare = async () => {
+    const url = typeof window !== "undefined" ? window.location.href : "";
+    const shareData = { title, text: `Check out "${title}" on Gather`, url };
+    try {
+      if (typeof navigator !== "undefined" && navigator.share && navigator.canShare?.(shareData)) {
+        await navigator.share(shareData);
+        return;
+      }
+    } catch (err) {
+      if ((err as DOMException)?.name === "AbortError") return;
+    }
+    try {
+      await navigator.clipboard.writeText(url);
+      toast.success("Link copied to clipboard");
+    } catch {
+      toast.error("Couldn't copy link");
+    }
+  };
+  return (
+    <Button
+      variant="ghost"
+      size="icon"
+      onClick={handleShare}
+      aria-label="Share event"
+      title="Share event"
+    >
+      <Share2 className="h-4 w-4" />
+    </Button>
+  );
+}
+
 function EventSkeleton() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
