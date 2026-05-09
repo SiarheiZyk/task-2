@@ -4,8 +4,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
-import { CalendarIcon, MapPin, Search, Globe } from "lucide-react";
+import { CalendarIcon, MapPin, Search, Globe, CheckCircle2, Clock, XCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/use-auth";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
@@ -17,6 +18,25 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import type { DateRange } from "react-day-picker";
+
+type RsvpStatus = "going" | "waitlisted" | "cancelled";
+
+function useMyRsvpMap(userId?: string) {
+  return useQuery({
+    queryKey: ["my-rsvp-map", userId],
+    enabled: !!userId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("rsvps")
+        .select("event_id, status")
+        .eq("user_id", userId!);
+      if (error) throw error;
+      const map: Record<string, RsvpStatus> = {};
+      for (const r of data ?? []) map[r.event_id as string] = r.status as RsvpStatus;
+      return map;
+    },
+  });
+}
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -94,6 +114,7 @@ function Explore() {
   const [page, setPage] = useState(1);
   const PAGE_SIZE = 9;
 
+  const { user } = useAuth();
   const { data, isLoading } = useEvents({
     search,
     location,
@@ -101,6 +122,7 @@ function Explore() {
     to: range?.to,
     includePast,
   });
+  const { data: rsvpMap } = useMyRsvpMap(user?.id);
 
   const events = data ?? [];
   useEffect(() => {
@@ -141,7 +163,7 @@ function Explore() {
           <>
             <Grid>
               {pageItems.map((e) => (
-                <EventCardItem key={e.id} event={e} />
+                <EventCardItem key={e.id} event={e} myStatus={rsvpMap?.[e.id]} />
               ))}
             </Grid>
             <Pagination
@@ -241,7 +263,7 @@ function Filters(props: {
   );
 }
 
-function EventCardItem({ event }: { event: EventCard }) {
+function EventCardItem({ event, myStatus }: { event: EventCard; myStatus?: RsvpStatus }) {
   const start = new Date(event.start_at);
   const ended = (event.end_at ? new Date(event.end_at) : start) < new Date();
   const tzAbbr = (() => {
@@ -286,6 +308,9 @@ function EventCardItem({ event }: { event: EventCard }) {
               Ended
             </Badge>
           )}
+          {myStatus && myStatus !== "cancelled" && (
+            <StatusBadge status={myStatus} />
+          )}
         </div>
         <CardContent className="space-y-3 p-5">
           <div className="text-xs font-medium text-primary">
@@ -324,6 +349,22 @@ function EventCardItem({ event }: { event: EventCard }) {
         </CardContent>
       </Card>
     </Link>
+  );
+}
+
+function StatusBadge({ status }: { status: RsvpStatus }) {
+  const config =
+    status === "going"
+      ? { Icon: CheckCircle2, label: "Going", cls: "bg-emerald-600 text-white" }
+      : status === "waitlisted"
+        ? { Icon: Clock, label: "Waitlisted", cls: "bg-amber-500 text-white" }
+        : { Icon: XCircle, label: "Cancelled", cls: "bg-muted text-muted-foreground" };
+  const { Icon, label, cls } = config;
+  return (
+    <Badge className={cn("absolute right-3 top-3 gap-1 shadow-sm", cls)}>
+      <Icon className="h-3 w-3" />
+      {label}
+    </Badge>
   );
 }
 
