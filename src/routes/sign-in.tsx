@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
@@ -54,6 +55,13 @@ function SignInPage() {
 
   return (
     <section className="mx-auto flex min-h-[60vh] max-w-md flex-col justify-center px-4 py-16 sm:px-6">
+      <Link
+        to="/"
+        className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition hover:text-foreground"
+      >
+        <ArrowLeft className="h-4 w-4" />
+        Back to events
+      </Link>
       <div className="rounded-2xl border border-border/60 bg-card p-8 shadow-[var(--shadow-md)]">
         <h1 className="text-2xl font-semibold tracking-tight">Sign in to Gather</h1>
         <p className="mt-2 text-sm text-muted-foreground">
