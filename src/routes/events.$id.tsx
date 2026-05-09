@@ -91,13 +91,9 @@ function useGoingCount(eventId: string) {
   return useQuery({
     queryKey: ["event-going-count", eventId],
     queryFn: async () => {
-      const { count, error } = await supabase
-        .from("rsvps")
-        .select("id", { count: "exact", head: true })
-        .eq("event_id", eventId)
-        .eq("status", "going");
+      const { data, error } = await supabase.rpc("event_going_count", { _event_id: eventId });
       if (error) throw error;
-      return count ?? 0;
+      return (data as number | null) ?? 0;
     },
   });
 }
