@@ -30,6 +30,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { TeamSection } from "@/components/TeamSection";
+import { HostModeration } from "@/components/HostModeration";
 
 export const Route = createFileRoute("/host/dashboard")({
   head: () => ({ meta: [{ title: "Host dashboard — Gather" }] }),
