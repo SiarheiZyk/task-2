@@ -5,7 +5,7 @@ import ReactMarkdown from "react-markdown";
 import { formatInTimeZone } from "date-fns-tz";
 import { format } from "date-fns";
 import { toast } from "sonner";
-import { ArrowLeft, CalendarIcon, Globe, MapPin, Users, EyeOff, FileText } from "lucide-react";
+import { ArrowLeft, CalendarIcon, Globe, MapPin, Users, EyeOff, FileText, Share2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
@@ -314,9 +314,12 @@ function EventPage() {
           </div>
           <div className="mt-2 flex items-start justify-between gap-3">
             <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">{event.title}</h1>
-            {user && !isMember && (
-              <ReportButton targetType="event" targetId={event.id} userId={user.id} />
-            )}
+            <div className="flex shrink-0 items-center gap-1">
+              <ShareButton title={event.title} />
+              {user && !isMember && (
+                <ReportButton targetType="event" targetId={event.id} userId={user.id} />
+              )}
+            </div>
           </div>
 
           {event.hosts && (
@@ -495,6 +498,38 @@ function safeFormat(iso: string, tz: string, pattern: string) {
   } catch {
     return format(new Date(iso), pattern);
   }
+}
+
+function ShareButton({ title }: { title: string }) {
+  const handleShare = async () => {
+    const url = typeof window !== "undefined" ? window.location.href : "";
+    const shareData = { title, text: `Check out "${title}" on Gather`, url };
+    try {
+      if (typeof navigator !== "undefined" && navigator.share && navigator.canShare?.(shareData)) {
+        await navigator.share(shareData);
+        return;
+      }
+    } catch (err) {
+      if ((err as DOMException)?.name === "AbortError") return;
+    }
+    try {
+      await navigator.clipboard.writeText(url);
+      toast.success("Link copied to clipboard");
+    } catch {
+      toast.error("Couldn't copy link");
+    }
+  };
+  return (
+    <Button
+      variant="ghost"
+      size="icon"
+      onClick={handleShare}
+      aria-label="Share event"
+      title="Share event"
+    >
+      <Share2 className="h-4 w-4" />
+    </Button>
+  );
 }
 
 function EventSkeleton() {
