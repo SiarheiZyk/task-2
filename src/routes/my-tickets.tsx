@@ -29,7 +29,7 @@ type Row = {
     online_link: string | null;
     cover_image_url: string | null;
   } | null;
-  tickets: { id: string; code: string }[] | null;
+  tickets: { id: string; code: string } | { id: string; code: string }[] | null;
 };
 
 function useMyRsvps(userId?: string) {
@@ -123,7 +123,8 @@ function MyTicketsPage() {
           ) : (
             <div className="grid gap-5 sm:grid-cols-2">
               {going.map((r) => {
-                const code = r.tickets?.[0]?.code;
+                const t = Array.isArray(r.tickets) ? r.tickets[0] : r.tickets;
+                const code = t?.code;
                 if (!r.events || !code) return null;
                 return (
                   <div key={r.id} className="space-y-3">
