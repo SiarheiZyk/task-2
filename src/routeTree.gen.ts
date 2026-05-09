@@ -13,6 +13,7 @@ import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as MyTicketsRouteImport } from './routes/my-tickets'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as HostsSlugRouteImport } from './routes/hosts.$slug'
 import { Route as HostNewRouteImport } from './routes/host.new'
 import { Route as HostDashboardRouteImport } from './routes/host.dashboard'
@@ -39,6 +40,11 @@ const MyTicketsRoute = MyTicketsRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InviteTokenRoute = InviteTokenRouteImport.update({
+  id: '/invite/$token',
+  path: '/invite/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HostsSlugRoute = HostsSlugRouteImport.update({
@@ -86,6 +92,7 @@ export interface FileRoutesByFullPath {
   '/host/dashboard': typeof HostDashboardRoute
   '/host/new': typeof HostNewRoute
   '/hosts/$slug': typeof HostsSlugRoute
+  '/invite/$token': typeof InviteTokenRoute
   '/host/events/new': typeof HostEventsNewRoute
   '/host/events/$id/check-in': typeof HostEventsIdCheckInRoute
   '/host/events/$id/edit': typeof HostEventsIdEditRoute
@@ -99,6 +106,7 @@ export interface FileRoutesByTo {
   '/host/dashboard': typeof HostDashboardRoute
   '/host/new': typeof HostNewRoute
   '/hosts/$slug': typeof HostsSlugRoute
+  '/invite/$token': typeof InviteTokenRoute
   '/host/events/new': typeof HostEventsNewRoute
   '/host/events/$id/check-in': typeof HostEventsIdCheckInRoute
   '/host/events/$id/edit': typeof HostEventsIdEditRoute
@@ -113,6 +121,7 @@ export interface FileRoutesById {
   '/host/dashboard': typeof HostDashboardRoute
   '/host/new': typeof HostNewRoute
   '/hosts/$slug': typeof HostsSlugRoute
+  '/invite/$token': typeof InviteTokenRoute
   '/host/events/new': typeof HostEventsNewRoute
   '/host/events/$id/check-in': typeof HostEventsIdCheckInRoute
   '/host/events/$id/edit': typeof HostEventsIdEditRoute
@@ -128,6 +137,7 @@ export interface FileRouteTypes {
     | '/host/dashboard'
     | '/host/new'
     | '/hosts/$slug'
+    | '/invite/$token'
     | '/host/events/new'
     | '/host/events/$id/check-in'
     | '/host/events/$id/edit'
@@ -141,6 +151,7 @@ export interface FileRouteTypes {
     | '/host/dashboard'
     | '/host/new'
     | '/hosts/$slug'
+    | '/invite/$token'
     | '/host/events/new'
     | '/host/events/$id/check-in'
     | '/host/events/$id/edit'
@@ -154,6 +165,7 @@ export interface FileRouteTypes {
     | '/host/dashboard'
     | '/host/new'
     | '/hosts/$slug'
+    | '/invite/$token'
     | '/host/events/new'
     | '/host/events/$id/check-in'
     | '/host/events/$id/edit'
@@ -168,6 +180,7 @@ export interface RootRouteChildren {
   HostDashboardRoute: typeof HostDashboardRoute
   HostNewRoute: typeof HostNewRoute
   HostsSlugRoute: typeof HostsSlugRoute
+  InviteTokenRoute: typeof InviteTokenRoute
   HostEventsNewRoute: typeof HostEventsNewRoute
   HostEventsIdCheckInRoute: typeof HostEventsIdCheckInRoute
   HostEventsIdEditRoute: typeof HostEventsIdEditRoute
@@ -201,6 +214,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/invite/$token': {
+      id: '/invite/$token'
+      path: '/invite/$token'
+      fullPath: '/invite/$token'
+      preLoaderRoute: typeof InviteTokenRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/hosts/$slug': {
@@ -264,6 +284,7 @@ const rootRouteChildren: RootRouteChildren = {
   HostDashboardRoute: HostDashboardRoute,
   HostNewRoute: HostNewRoute,
   HostsSlugRoute: HostsSlugRoute,
+  InviteTokenRoute: InviteTokenRoute,
   HostEventsNewRoute: HostEventsNewRoute,
   HostEventsIdCheckInRoute: HostEventsIdCheckInRoute,
   HostEventsIdEditRoute: HostEventsIdEditRoute,
@@ -271,3 +292,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
