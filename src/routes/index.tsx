@@ -163,7 +163,7 @@ function Explore() {
           <>
             <Grid>
               {pageItems.map((e) => (
-                <EventCardItem key={e.id} event={e} />
+                <EventCardItem key={e.id} event={e} myStatus={rsvpMap?.[e.id]} />
               ))}
             </Grid>
             <Pagination
