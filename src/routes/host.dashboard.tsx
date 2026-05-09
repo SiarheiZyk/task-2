@@ -61,7 +61,7 @@ function HostDashboard() {
     queryFn: async (): Promise<EventRow[]> => {
       const { data, error } = await supabase
         .from("events")
-        .select("id, title, start_at, end_at, status, visibility, capacity")
+        .select("id, title, start_at, end_at, status, visibility, capacity, timezone")
         .eq("host_id", current!.id)
         .order("start_at", { ascending: false });
       if (error) throw error;
