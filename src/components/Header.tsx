@@ -85,8 +85,11 @@ export function Header() {
               <DropdownMenuItem onSelect={() => navigate({ to: "/my-tickets" })}>
                 My Tickets
               </DropdownMenuItem>
-              <DropdownMenuItem onSelect={() => navigate({ to: "/host/dashboard" })}>
+              <DropdownMenuItem onSelect={() => navigate({ to: "/my-events" })}>
                 My Events
+              </DropdownMenuItem>
+              <DropdownMenuItem onSelect={() => navigate({ to: "/host/dashboard" })}>
+                Host Dashboard
               </DropdownMenuItem>
               <DropdownMenuItem onSelect={() => navigate({ to: "/host/new" })}>
                 Become a Host
