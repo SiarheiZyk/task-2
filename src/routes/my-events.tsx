@@ -119,13 +119,7 @@ function MyEventsPage() {
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-      <Link
-        to="/"
-        className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
-      >
-        <ArrowLeft className="h-4 w-4" />
-        Back to events
-      </Link>
+      <Breadcrumbs items={[{ label: "My events" }]} />
       <h1 className="text-3xl font-semibold tracking-tight">My events</h1>
       <p className="mt-1 text-sm text-muted-foreground">
         All events from the hosts you're part of.
