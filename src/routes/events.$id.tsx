@@ -5,7 +5,7 @@ import ReactMarkdown from "react-markdown";
 import { formatInTimeZone } from "date-fns-tz";
 import { format } from "date-fns";
 import { toast } from "sonner";
-import { ArrowLeft, CalendarIcon, Globe, MapPin, Users, EyeOff, FileText } from "lucide-react";
+import { ArrowLeft, CalendarIcon, Globe, MapPin, Users, EyeOff, FileText, Share2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
