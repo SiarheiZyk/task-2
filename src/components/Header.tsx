@@ -43,19 +43,50 @@ export function Header() {
     .toUpperCase();
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/70 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
+    <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/70 shadow-[0_1px_0_0_oklch(0_0_0/0.02),0_8px_24px_-16px_oklch(0.2_0.05_270/0.15)] backdrop-blur-xl supports-[backdrop-filter]:bg-background/60">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
         <Link
           to="/"
-          className="group flex items-center gap-2 font-semibold tracking-tight transition-opacity hover:opacity-90"
+          className="group flex items-center gap-2.5 font-semibold tracking-tight transition-opacity hover:opacity-90"
         >
           <span
-            className="inline-block h-7 w-7 rounded-xl shadow-[var(--shadow-glow)] transition-transform duration-200 group-hover:scale-105"
+            className="inline-block h-8 w-8 rounded-xl shadow-[var(--shadow-glow)] ring-1 ring-white/20 transition-transform duration-200 group-hover:scale-105 group-hover:rotate-3"
             style={{ background: "var(--gradient-primary)" }}
             aria-hidden
           />
-          <span className="text-base">Gather</span>
+          <span className="bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-base text-transparent">
+            Gather
+          </span>
         </Link>
+
+        <nav className="hidden flex-1 items-center justify-center gap-1 md:flex">
+          <Link
+            to="/"
+            className="rounded-lg px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+            activeProps={{ className: "rounded-lg px-3 py-1.5 text-sm font-medium bg-muted text-foreground" }}
+            activeOptions={{ exact: true }}
+          >
+            Discover
+          </Link>
+          {user && (
+            <>
+              <Link
+                to="/my-tickets"
+                className="rounded-lg px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                activeProps={{ className: "rounded-lg px-3 py-1.5 text-sm font-medium bg-muted text-foreground" }}
+              >
+                My Tickets
+              </Link>
+              <Link
+                to="/host/dashboard"
+                className="rounded-lg px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                activeProps={{ className: "rounded-lg px-3 py-1.5 text-sm font-medium bg-muted text-foreground" }}
+              >
+                Host
+              </Link>
+            </>
+          )}
+        </nav>
 
         <div className="flex items-center gap-3">
           {user && onHostRoute && <HostSwitcher />}
