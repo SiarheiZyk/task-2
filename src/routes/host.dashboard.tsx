@@ -381,7 +381,7 @@ function EventList({
   return (
     <div className="overflow-hidden rounded-2xl border border-border/60 bg-card">
       <ul className="divide-y divide-border/60">
-        {events.map((e) => {
+        {pageItems.map((e) => {
           const c = counts?.[e.id] ?? { going: 0, waitlisted: 0, checked_in: 0 };
           return (
             <li key={e.id} className="flex flex-wrap items-center gap-4 px-5 py-4">
