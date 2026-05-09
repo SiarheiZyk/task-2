@@ -77,7 +77,7 @@ export function Header() {
               <DropdownMenuItem onSelect={() => navigate({ to: "/profile" })}>
                 Profile
               </DropdownMenuItem>
-              <DropdownMenuItem onSelect={() => navigate({ to: "/" })}>
+              <DropdownMenuItem onSelect={() => navigate({ to: "/my-tickets" })}>
                 My Tickets
               </DropdownMenuItem>
               <DropdownMenuItem onSelect={() => navigate({ to: "/" })}>
