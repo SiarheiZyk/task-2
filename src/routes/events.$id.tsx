@@ -5,7 +5,7 @@ import ReactMarkdown from "react-markdown";
 import { formatInTimeZone } from "date-fns-tz";
 import { format } from "date-fns";
 import { toast } from "sonner";
-import { CalendarIcon, Globe, MapPin, Users, EyeOff, FileText } from "lucide-react";
+import { ArrowLeft, CalendarIcon, Globe, MapPin, Users, EyeOff, FileText } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
@@ -210,6 +210,14 @@ function EventPage() {
 
   return (
     <article className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
+      <Link
+        to="/"
+        className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition hover:text-foreground"
+      >
+        <ArrowLeft className="h-4 w-4" />
+        Back to events
+      </Link>
+
       {event.status === "draft" && isMember && (
         <div className="mb-6 flex items-center gap-2 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm">
           <FileText className="h-4 w-4 text-amber-600" />
