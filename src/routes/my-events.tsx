@@ -262,6 +262,13 @@ function MyEventsPage() {
             );
           })}
         </ul>
+        <Pagination
+          page={page}
+          pageSize={PAGE_SIZE}
+          total={filtered.length}
+          onPageChange={setPage}
+        />
+        </>
       )}
     </section>
   );
