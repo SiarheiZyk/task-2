@@ -379,6 +379,24 @@ function EventPage() {
               <ReactMarkdown>{event.description}</ReactMarkdown>
             </div>
           )}
+
+          {ended && (
+            <>
+              <EventGallery
+                eventId={event.id}
+                userId={user?.id}
+                canUpload={myRsvp?.status === "going"}
+              />
+              <EventFeedback
+                eventId={event.id}
+                userId={user?.id}
+                canSubmit={myRsvp?.status === "going"}
+                showComments={
+                  event.status === "published" && event.visibility === "public"
+                }
+              />
+            </>
+          )}
         </div>
 
         <aside className="lg:sticky lg:top-24 lg:self-start">
