@@ -324,6 +324,9 @@ function HostDashboard() {
         <TabsContent value="team" className="mt-6">
           {current && <TeamSection hostId={current.id} isOwner={canEdit} />}
         </TabsContent>
+        <TabsContent value="moderation" className="mt-6">
+          {current && <HostModeration hostId={current.id} />}
+        </TabsContent>
       </Tabs>
     </section>
   );
