@@ -1,5 +1,6 @@
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
+import { HostSwitcher } from "@/components/HostSwitcher";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -16,6 +17,8 @@ import { supabase } from "@/integrations/supabase/client";
 export function Header() {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const onHostRoute = pathname.startsWith("/host");
   const [profile, setProfile] = useState<{ name: string | null; avatar_url: string | null } | null>(null);
 
   useEffect(() => {
@@ -54,6 +57,8 @@ export function Header() {
           <span className="text-base">Gather</span>
         </Link>
 
+        <div className="flex items-center gap-3">
+          {user && onHostRoute && <HostSwitcher />}
         {user ? (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -106,6 +111,7 @@ export function Header() {
             <Link to="/sign-in">Sign in</Link>
           </Button>
         )}
+        </div>
       </div>
     </header>
   );
