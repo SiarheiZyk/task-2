@@ -70,6 +70,7 @@ function NewEventPage() {
       toast.error(error?.message ?? "Failed to create event");
       return;
     }
+    await qc.invalidateQueries();
     toast.success(status === "published" ? "Event published" : "Draft saved");
     navigate({ to: "/host/dashboard" });
   };
