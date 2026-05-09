@@ -374,8 +374,10 @@ function EventList({
                       <Copy className="mr-2 h-4 w-4" /> Duplicate
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem disabled>
-                      <ScanLine className="mr-2 h-4 w-4" /> Check-in (soon)
+                    <DropdownMenuItem asChild>
+                      <Link to="/host/events/$id/check-in" params={{ id: e.id }}>
+                        <ScanLine className="mr-2 h-4 w-4" /> Check-in
+                      </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem onSelect={() => onExport(e)}>
                       <Download className="mr-2 h-4 w-4" /> Export CSV
