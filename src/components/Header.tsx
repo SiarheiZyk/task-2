@@ -60,14 +60,6 @@ export function Header() {
         </Link>
 
         <nav className="hidden flex-1 items-center justify-center gap-1 md:flex">
-          <Link
-            to="/"
-            className="rounded-lg px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-            activeProps={{ className: "rounded-lg px-3 py-1.5 text-sm font-medium bg-muted text-foreground" }}
-            activeOptions={{ exact: true }}
-          >
-            Discover
-          </Link>
           {user && (
             <>
               <Link
