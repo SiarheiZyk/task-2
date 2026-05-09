@@ -174,35 +174,83 @@ function HostDashboard() {
   };
 
   const handleExportCsv = async (e: EventRow) => {
-    const { data, error } = await supabase
-      .from("rsvps")
-      .select("status, waitlist_position, created_at, profiles:user_id ( name )")
-      .eq("event_id", e.id);
+    const { data, error } = await supabase.rpc("export_event_rsvps", { _event_id: e.id });
     if (error) return toast.error(error.message);
-    const rows = [
-      ["Name", "Status", "Waitlist position", "Created at"],
-      ...((data ?? []) as Array<{
-        status: string;
-        waitlist_position: number | null;
-        created_at: string;
-        profiles: { name: string | null } | null;
-      }>).map((r) => [
-        r.profiles?.name ?? "",
-        r.status,
-        r.waitlist_position ?? "",
-        r.created_at,
-      ]),
+    type Row = {
+      name: string | null;
+      email: string | null;
+      status: string;
+      waitlist_position: number | null;
+      checked_in_at: string | null;
+    };
+    const rows = (data ?? []) as Row[];
+    const tz = e.timezone || "UTC";
+    const slug = (e.title || "event")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "") || "event";
+
+    const escape = (v: unknown) => {
+      if (v === null || v === undefined) return '""';
+      const s = String(v);
+      return `"${s.replace(/"/g, '""')}"`;
+    };
+    const isoInTz = (iso: string | null) => {
+      if (!iso) return "";
+      try {
+        // Build ISO 8601 with the event's timezone offset
+        const d = new Date(iso);
+        const parts = new Intl.DateTimeFormat("en-CA", {
+          timeZone: tz,
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: false,
+        }).formatToParts(d);
+        const get = (t: string) => parts.find((p) => p.type === t)?.value ?? "00";
+        const dateStr = `${get("year")}-${get("month")}-${get("day")}T${get("hour")}:${get("minute")}:${get("second")}`;
+        // Calculate offset
+        const offsetParts = new Intl.DateTimeFormat("en-US", {
+          timeZone: tz,
+          timeZoneName: "longOffset",
+        }).formatToParts(d);
+        const tzName = offsetParts.find((p) => p.type === "timeZoneName")?.value ?? "GMT";
+        const m = tzName.match(/GMT([+-])(\d{1,2})(?::(\d{2}))?/);
+        const offset = m ? `${m[1]}${m[2].padStart(2, "0")}:${m[3] ?? "00"}` : "Z";
+        return `${dateStr}${offset}`;
+      } catch {
+        return iso;
+      }
+    };
+
+    const header = ["Name", "Email", "RSVP Status", "Waitlist Position", "Checked-in Time"];
+    const lines = [
+      header.map(escape).join(","),
+      ...rows.map((r) =>
+        [
+          r.name ?? "",
+          r.email ?? "",
+          r.status,
+          r.waitlist_position ?? "",
+          isoInTz(r.checked_in_at),
+        ]
+          .map(escape)
+          .join(","),
+      ),
     ];
-    const csv = rows
-      .map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(","))
-      .join("\n");
-    const blob = new Blob([csv], { type: "text/csv" });
+    // CRLF line endings improve Excel compatibility
+    const csv = "\uFEFF" + lines.join("\r\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `${e.title.replace(/[^a-z0-9]+/gi, "-")}-rsvps.csv`;
+    a.download = `event-${slug}-rsvps.csv`;
     a.click();
     URL.revokeObjectURL(url);
+    toast.success(`Exported ${rows.length} RSVPs`);
   };
 
   return (
