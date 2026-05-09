@@ -408,10 +408,18 @@ function EventPage() {
                   Sign in to RSVP
                 </Button>
               ) : myRsvp?.status === "going" ? (
-                <div className="space-y-3">
-                  <div className="rounded-xl border border-primary/30 bg-primary/5 px-4 py-3 text-center text-sm font-medium">
-                    You're going 🎉
-                  </div>
+                <div className="space-y-4">
+                  {myTicket ? (
+                    <TicketCard
+                      ticketCode={myTicket.code}
+                      attendeeName={attendeeName || user.email || "Guest"}
+                      event={event}
+                    />
+                  ) : (
+                    <div className="rounded-xl border border-primary/30 bg-primary/5 px-4 py-3 text-center text-sm font-medium">
+                      You're going 🎉
+                    </div>
+                  )}
                   <Button
                     variant="outline"
                     className="w-full rounded-xl"
