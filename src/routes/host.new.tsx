@@ -50,6 +50,7 @@ async function uniqueSlug(base: string) {
 function NewHostPage() {
   const { user, loading } = useRequireAuth();
   const navigate = useNavigate();
+  const qc = useQueryClient();
   const [name, setName] = useState("");
   const [bio, setBio] = useState("");
   const [contactEmail, setContactEmail] = useState("");
