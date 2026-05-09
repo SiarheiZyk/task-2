@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useRequireAuth } from "@/hooks/use-require-auth";
@@ -17,6 +18,7 @@ function NewEventPage() {
   const { user, loading } = useRequireAuth();
   const { current, hosts, isLoading } = useCurrentHost();
   const navigate = useNavigate();
+  const qc = useQueryClient();
   const [submitting, setSubmitting] = useState(false);
 
   if (loading || !user || isLoading) {
@@ -68,6 +70,7 @@ function NewEventPage() {
       toast.error(error?.message ?? "Failed to create event");
       return;
     }
+    await qc.invalidateQueries();
     toast.success(status === "published" ? "Event published" : "Draft saved");
     navigate({ to: "/host/dashboard" });
   };

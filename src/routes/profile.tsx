@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -17,6 +18,7 @@ export const Route = createFileRoute("/profile")({
 
 function ProfilePage() {
   const { user, loading } = useRequireAuth();
+  const qc = useQueryClient();
   const [name, setName] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
   const [loadingProfile, setLoadingProfile] = useState(true);
@@ -85,6 +87,7 @@ function ProfilePage() {
       toast.error(error.message);
       return;
     }
+    await qc.invalidateQueries();
     toast.success("Profile updated");
   };
 

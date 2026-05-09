@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Copy, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -19,6 +19,7 @@ function EditEventPage() {
   const { id } = Route.useParams();
   const { user, loading } = useRequireAuth();
   const navigate = useNavigate();
+  const qc = useQueryClient();
   const [submitting, setSubmitting] = useState(false);
 
   const { data: event, isLoading } = useQuery({
@@ -88,6 +89,7 @@ function EditEventPage() {
       toast.error(error.message);
       return;
     }
+    await qc.invalidateQueries();
     toast.success("Event saved");
     navigate({ to: "/host/dashboard" });
   };
@@ -100,6 +102,7 @@ function EditEventPage() {
       toast.error(error.message);
       return;
     }
+    await qc.invalidateQueries();
     toast.success("Event unpublished");
     navigate({ to: "/host/dashboard" });
   };
@@ -130,6 +133,7 @@ function EditEventPage() {
       toast.error(error?.message ?? "Failed to duplicate");
       return;
     }
+    await qc.invalidateQueries();
     toast.success("Duplicated as draft");
     navigate({ to: "/host/events/$id/edit", params: { id: data.id } });
   };

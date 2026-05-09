@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft } from "lucide-react";
 import { z } from "zod";
 import { toast } from "sonner";
@@ -49,6 +50,7 @@ async function uniqueSlug(base: string) {
 function NewHostPage() {
   const { user, loading } = useRequireAuth();
   const navigate = useNavigate();
+  const qc = useQueryClient();
   const [name, setName] = useState("");
   const [bio, setBio] = useState("");
   const [contactEmail, setContactEmail] = useState("");
@@ -118,6 +120,7 @@ function NewHostPage() {
     } else {
       toast.success("Host created!");
     }
+    await qc.invalidateQueries();
     navigate({ to: "/host/dashboard" });
   };
 
