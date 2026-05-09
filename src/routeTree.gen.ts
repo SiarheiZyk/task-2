@@ -13,6 +13,9 @@ import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as MyTicketsRouteImport } from './routes/my-tickets'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as HostsSlugRouteImport } from './routes/hosts.$slug'
+import { Route as HostNewRouteImport } from './routes/host.new'
+import { Route as HostDashboardRouteImport } from './routes/host.dashboard'
 import { Route as EventsIdRouteImport } from './routes/events.$id'
 
 const SignInRoute = SignInRouteImport.update({
@@ -35,6 +38,21 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HostsSlugRoute = HostsSlugRouteImport.update({
+  id: '/hosts/$slug',
+  path: '/hosts/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HostNewRoute = HostNewRouteImport.update({
+  id: '/host/new',
+  path: '/host/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HostDashboardRoute = HostDashboardRouteImport.update({
+  id: '/host/dashboard',
+  path: '/host/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EventsIdRoute = EventsIdRouteImport.update({
   id: '/events/$id',
   path: '/events/$id',
@@ -47,6 +65,9 @@ export interface FileRoutesByFullPath {
   '/profile': typeof ProfileRoute
   '/sign-in': typeof SignInRoute
   '/events/$id': typeof EventsIdRoute
+  '/host/dashboard': typeof HostDashboardRoute
+  '/host/new': typeof HostNewRoute
+  '/hosts/$slug': typeof HostsSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +75,9 @@ export interface FileRoutesByTo {
   '/profile': typeof ProfileRoute
   '/sign-in': typeof SignInRoute
   '/events/$id': typeof EventsIdRoute
+  '/host/dashboard': typeof HostDashboardRoute
+  '/host/new': typeof HostNewRoute
+  '/hosts/$slug': typeof HostsSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,13 +86,41 @@ export interface FileRoutesById {
   '/profile': typeof ProfileRoute
   '/sign-in': typeof SignInRoute
   '/events/$id': typeof EventsIdRoute
+  '/host/dashboard': typeof HostDashboardRoute
+  '/host/new': typeof HostNewRoute
+  '/hosts/$slug': typeof HostsSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/my-tickets' | '/profile' | '/sign-in' | '/events/$id'
+  fullPaths:
+    | '/'
+    | '/my-tickets'
+    | '/profile'
+    | '/sign-in'
+    | '/events/$id'
+    | '/host/dashboard'
+    | '/host/new'
+    | '/hosts/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/my-tickets' | '/profile' | '/sign-in' | '/events/$id'
-  id: '__root__' | '/' | '/my-tickets' | '/profile' | '/sign-in' | '/events/$id'
+  to:
+    | '/'
+    | '/my-tickets'
+    | '/profile'
+    | '/sign-in'
+    | '/events/$id'
+    | '/host/dashboard'
+    | '/host/new'
+    | '/hosts/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/my-tickets'
+    | '/profile'
+    | '/sign-in'
+    | '/events/$id'
+    | '/host/dashboard'
+    | '/host/new'
+    | '/hosts/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -77,6 +129,9 @@ export interface RootRouteChildren {
   ProfileRoute: typeof ProfileRoute
   SignInRoute: typeof SignInRoute
   EventsIdRoute: typeof EventsIdRoute
+  HostDashboardRoute: typeof HostDashboardRoute
+  HostNewRoute: typeof HostNewRoute
+  HostsSlugRoute: typeof HostsSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -109,6 +164,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/hosts/$slug': {
+      id: '/hosts/$slug'
+      path: '/hosts/$slug'
+      fullPath: '/hosts/$slug'
+      preLoaderRoute: typeof HostsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/host/new': {
+      id: '/host/new'
+      path: '/host/new'
+      fullPath: '/host/new'
+      preLoaderRoute: typeof HostNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/host/dashboard': {
+      id: '/host/dashboard'
+      path: '/host/dashboard'
+      fullPath: '/host/dashboard'
+      preLoaderRoute: typeof HostDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/events/$id': {
       id: '/events/$id'
       path: '/events/$id'
@@ -125,6 +201,9 @@ const rootRouteChildren: RootRouteChildren = {
   ProfileRoute: ProfileRoute,
   SignInRoute: SignInRoute,
   EventsIdRoute: EventsIdRoute,
+  HostDashboardRoute: HostDashboardRoute,
+  HostNewRoute: HostNewRoute,
+  HostsSlugRoute: HostsSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
