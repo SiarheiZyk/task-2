@@ -190,8 +190,9 @@ function MyEventsPage() {
           </p>
         </div>
       ) : (
+        <>
         <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((e) => {
+          {pageItems.map((e) => {
             const role = roleByHost.get(e.host_id) ?? "checker";
             const isHost = role === "host";
             return (
