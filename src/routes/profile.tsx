@@ -18,6 +18,7 @@ export const Route = createFileRoute("/profile")({
 
 function ProfilePage() {
   const { user, loading } = useRequireAuth();
+  const qc = useQueryClient();
   const [name, setName] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
   const [loadingProfile, setLoadingProfile] = useState(true);
