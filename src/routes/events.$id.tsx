@@ -312,7 +312,12 @@ function EventPage() {
               </Badge>
             )}
           </div>
-          <h1 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">{event.title}</h1>
+          <div className="mt-2 flex items-start justify-between gap-3">
+            <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">{event.title}</h1>
+            {user && !isMember && (
+              <ReportButton targetType="event" targetId={event.id} userId={user.id} />
+            )}
+          </div>
 
           {event.hosts && (
             <Link
