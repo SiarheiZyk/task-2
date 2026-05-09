@@ -467,6 +467,17 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      export_event_rsvps: {
+        Args: { _event_id: string }
+        Returns: {
+          checked_in_at: string
+          created_at: string
+          email: string
+          name: string
+          status: string
+          waitlist_position: number
+        }[]
+      }
       is_event_host_member: {
         Args: { _event_id: string; _user_id: string }
         Returns: boolean
