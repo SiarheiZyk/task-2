@@ -12,7 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as MyTicketsRouteImport } from './routes/my-tickets'
+import { Route as MyEventsRouteImport } from './routes/my-events'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as HostsSlugRouteImport } from './routes/hosts.$slug'
 import { Route as HostNewRouteImport } from './routes/host.new'
 import { Route as HostDashboardRouteImport } from './routes/host.dashboard'
@@ -36,9 +38,19 @@ const MyTicketsRoute = MyTicketsRouteImport.update({
   path: '/my-tickets',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MyEventsRoute = MyEventsRouteImport.update({
+  id: '/my-events',
+  path: '/my-events',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InviteTokenRoute = InviteTokenRouteImport.update({
+  id: '/invite/$token',
+  path: '/invite/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HostsSlugRoute = HostsSlugRouteImport.update({
@@ -79,6 +91,7 @@ const HostEventsIdCheckInRoute = HostEventsIdCheckInRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/my-events': typeof MyEventsRoute
   '/my-tickets': typeof MyTicketsRoute
   '/profile': typeof ProfileRoute
   '/sign-in': typeof SignInRoute
@@ -86,12 +99,14 @@ export interface FileRoutesByFullPath {
   '/host/dashboard': typeof HostDashboardRoute
   '/host/new': typeof HostNewRoute
   '/hosts/$slug': typeof HostsSlugRoute
+  '/invite/$token': typeof InviteTokenRoute
   '/host/events/new': typeof HostEventsNewRoute
   '/host/events/$id/check-in': typeof HostEventsIdCheckInRoute
   '/host/events/$id/edit': typeof HostEventsIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/my-events': typeof MyEventsRoute
   '/my-tickets': typeof MyTicketsRoute
   '/profile': typeof ProfileRoute
   '/sign-in': typeof SignInRoute
@@ -99,6 +114,7 @@ export interface FileRoutesByTo {
   '/host/dashboard': typeof HostDashboardRoute
   '/host/new': typeof HostNewRoute
   '/hosts/$slug': typeof HostsSlugRoute
+  '/invite/$token': typeof InviteTokenRoute
   '/host/events/new': typeof HostEventsNewRoute
   '/host/events/$id/check-in': typeof HostEventsIdCheckInRoute
   '/host/events/$id/edit': typeof HostEventsIdEditRoute
@@ -106,6 +122,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/my-events': typeof MyEventsRoute
   '/my-tickets': typeof MyTicketsRoute
   '/profile': typeof ProfileRoute
   '/sign-in': typeof SignInRoute
@@ -113,6 +130,7 @@ export interface FileRoutesById {
   '/host/dashboard': typeof HostDashboardRoute
   '/host/new': typeof HostNewRoute
   '/hosts/$slug': typeof HostsSlugRoute
+  '/invite/$token': typeof InviteTokenRoute
   '/host/events/new': typeof HostEventsNewRoute
   '/host/events/$id/check-in': typeof HostEventsIdCheckInRoute
   '/host/events/$id/edit': typeof HostEventsIdEditRoute
@@ -121,6 +139,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/my-events'
     | '/my-tickets'
     | '/profile'
     | '/sign-in'
@@ -128,12 +147,14 @@ export interface FileRouteTypes {
     | '/host/dashboard'
     | '/host/new'
     | '/hosts/$slug'
+    | '/invite/$token'
     | '/host/events/new'
     | '/host/events/$id/check-in'
     | '/host/events/$id/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/my-events'
     | '/my-tickets'
     | '/profile'
     | '/sign-in'
@@ -141,12 +162,14 @@ export interface FileRouteTypes {
     | '/host/dashboard'
     | '/host/new'
     | '/hosts/$slug'
+    | '/invite/$token'
     | '/host/events/new'
     | '/host/events/$id/check-in'
     | '/host/events/$id/edit'
   id:
     | '__root__'
     | '/'
+    | '/my-events'
     | '/my-tickets'
     | '/profile'
     | '/sign-in'
@@ -154,6 +177,7 @@ export interface FileRouteTypes {
     | '/host/dashboard'
     | '/host/new'
     | '/hosts/$slug'
+    | '/invite/$token'
     | '/host/events/new'
     | '/host/events/$id/check-in'
     | '/host/events/$id/edit'
@@ -161,6 +185,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  MyEventsRoute: typeof MyEventsRoute
   MyTicketsRoute: typeof MyTicketsRoute
   ProfileRoute: typeof ProfileRoute
   SignInRoute: typeof SignInRoute
@@ -168,6 +193,7 @@ export interface RootRouteChildren {
   HostDashboardRoute: typeof HostDashboardRoute
   HostNewRoute: typeof HostNewRoute
   HostsSlugRoute: typeof HostsSlugRoute
+  InviteTokenRoute: typeof InviteTokenRoute
   HostEventsNewRoute: typeof HostEventsNewRoute
   HostEventsIdCheckInRoute: typeof HostEventsIdCheckInRoute
   HostEventsIdEditRoute: typeof HostEventsIdEditRoute
@@ -196,11 +222,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MyTicketsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/my-events': {
+      id: '/my-events'
+      path: '/my-events'
+      fullPath: '/my-events'
+      preLoaderRoute: typeof MyEventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/invite/$token': {
+      id: '/invite/$token'
+      path: '/invite/$token'
+      fullPath: '/invite/$token'
+      preLoaderRoute: typeof InviteTokenRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/hosts/$slug': {
@@ -257,6 +297,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  MyEventsRoute: MyEventsRoute,
   MyTicketsRoute: MyTicketsRoute,
   ProfileRoute: ProfileRoute,
   SignInRoute: SignInRoute,
@@ -264,6 +305,7 @@ const rootRouteChildren: RootRouteChildren = {
   HostDashboardRoute: HostDashboardRoute,
   HostNewRoute: HostNewRoute,
   HostsSlugRoute: HostsSlugRoute,
+  InviteTokenRoute: InviteTokenRoute,
   HostEventsNewRoute: HostEventsNewRoute,
   HostEventsIdCheckInRoute: HostEventsIdCheckInRoute,
   HostEventsIdEditRoute: HostEventsIdEditRoute,
