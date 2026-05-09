@@ -220,20 +220,11 @@ function EventCard({ event, ended }: { event: EventRow; ended: boolean }) {
     >
       <Card className="overflow-hidden rounded-xl transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)]">
         <div className="relative aspect-[16/9] w-full overflow-hidden bg-muted">
-          {event.cover_image_url ? (
-            <img
-              src={event.cover_image_url}
-              alt={event.title}
-              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-              loading="lazy"
-            />
-          ) : (
-            <div
-              className="h-full w-full"
-              style={{ background: "var(--gradient-primary)" }}
-              aria-hidden
-            />
-          )}
+          <CoverImage
+            src={event.cover_image_url}
+            alt={event.title}
+            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
           {ended && (
             <Badge variant="secondary" className="absolute left-3 top-3 shadow-sm">
               Ended
