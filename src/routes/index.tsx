@@ -90,6 +90,8 @@ function Explore() {
   const [location, setLocation] = useState("");
   const [includePast, setIncludePast] = useState(false);
   const [range, setRange] = useState<DateRange | undefined>();
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 9;
 
   const { data, isLoading } = useEvents({
     search,
@@ -100,6 +102,10 @@ function Explore() {
   });
 
   const events = data ?? [];
+  useEffect(() => {
+    setPage(1);
+  }, [search, location, includePast, range?.from, range?.to, events.length]);
+  const pageItems = paginate(events, page, PAGE_SIZE);
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
@@ -131,11 +137,22 @@ function Explore() {
         ) : events.length === 0 ? (
           <EmptyState />
         ) : (
-          <Grid>
-            {events.map((e) => (
-              <EventCardItem key={e.id} event={e} />
-            ))}
-          </Grid>
+          <>
+            <Grid>
+              {pageItems.map((e) => (
+                <EventCardItem key={e.id} event={e} />
+              ))}
+            </Grid>
+            <Pagination
+              page={page}
+              pageSize={PAGE_SIZE}
+              total={events.length}
+              onPageChange={(p) => {
+                setPage(p);
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+            />
+          </>
         )}
       </div>
     </section>
