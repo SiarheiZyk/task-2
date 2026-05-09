@@ -1,4 +1,5 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { Pagination, paginate } from "@/components/Pagination";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
@@ -74,6 +75,13 @@ function MyEventsPage() {
     if (to && new Date(e.start_at) > new Date(to + "T23:59:59")) return false;
     return true;
   });
+
+  const PAGE_SIZE = 9;
+  const [page, setPage] = useState(1);
+  useEffect(() => {
+    setPage(1);
+  }, [search, from, to, hostFilter, filtered.length]);
+  const pageItems = paginate(filtered, page, PAGE_SIZE);
 
   const toggleHost = (id: string) => {
     setHostFilter((prev) => {
@@ -182,8 +190,9 @@ function MyEventsPage() {
           </p>
         </div>
       ) : (
+        <>
         <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((e) => {
+          {pageItems.map((e) => {
             const role = roleByHost.get(e.host_id) ?? "checker";
             const isHost = role === "host";
             return (
@@ -253,6 +262,13 @@ function MyEventsPage() {
             );
           })}
         </ul>
+        <Pagination
+          page={page}
+          pageSize={PAGE_SIZE}
+          total={filtered.length}
+          onPageChange={setPage}
+        />
+        </>
       )}
     </section>
   );

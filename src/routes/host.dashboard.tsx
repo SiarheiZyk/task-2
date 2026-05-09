@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
@@ -32,6 +32,7 @@ import {
 import { TeamSection } from "@/components/TeamSection";
 import { HostModeration } from "@/components/HostModeration";
 import { ReportsSection } from "@/components/ReportsSection";
+import { Pagination, paginate } from "@/components/Pagination";
 
 export const Route = createFileRoute("/host/dashboard")({
   head: () => ({ meta: [{ title: "Host dashboard — Gather" }] }),
@@ -354,6 +355,13 @@ function EventList({
   onDuplicate: (e: EventRow) => void;
   onExport: (e: EventRow) => void;
 }) {
+  const PAGE_SIZE = 8;
+  const [page, setPage] = useState(1);
+  useEffect(() => {
+    setPage(1);
+  }, [events.length]);
+  const pageItems = paginate(events, page, PAGE_SIZE);
+
   if (isLoading) return <Skeleton className="h-48 w-full rounded-2xl" />;
   if (events.length === 0) {
     return (
@@ -374,7 +382,7 @@ function EventList({
   return (
     <div className="overflow-hidden rounded-2xl border border-border/60 bg-card">
       <ul className="divide-y divide-border/60">
-        {events.map((e) => {
+        {pageItems.map((e) => {
           const c = counts?.[e.id] ?? { going: 0, waitlisted: 0, checked_in: 0 };
           return (
             <li key={e.id} className="flex flex-wrap items-center gap-4 px-5 py-4">
@@ -453,6 +461,14 @@ function EventList({
           );
         })}
       </ul>
+      <div className="px-5 pb-4">
+        <Pagination
+          page={page}
+          pageSize={PAGE_SIZE}
+          total={events.length}
+          onPageChange={setPage}
+        />
+      </div>
     </div>
   );
 }
