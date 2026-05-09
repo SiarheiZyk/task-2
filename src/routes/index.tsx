@@ -242,7 +242,11 @@ function EventCardItem({ event }: { event: EventCard }) {
   })();
 
   return (
-    <Link to="/" className={cn("group block", ended && "opacity-70")}>
+    <Link
+      to="/events/$id"
+      params={{ id: event.id }}
+      className={cn("group block", ended && "opacity-70")}
+    >
       <Card className="overflow-hidden rounded-xl transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)]">
         <div className="relative aspect-[16/9] w-full overflow-hidden bg-muted">
           {event.cover_image_url ? (
