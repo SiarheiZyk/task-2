@@ -229,7 +229,7 @@ function MyEventsPage() {
                     </h3>
                   </Link>
                   <p className="mt-1 text-xs text-muted-foreground">
-                    {format(new Date(e.start_at), "MMM d, yyyy h:mm a")} ·{" "}
+                    {formatEventDateShort(e.start_at, e.timezone)} ·{" "}
                     {nameByHost.get(e.host_id)}
                   </p>
                   <div className="mt-3 flex flex-wrap gap-2">
