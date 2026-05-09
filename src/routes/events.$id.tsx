@@ -258,6 +258,7 @@ function EventPage() {
     qc.invalidateQueries({ queryKey: ["my-rsvp", id] });
     qc.invalidateQueries({ queryKey: ["event-going-count", id] });
     qc.invalidateQueries({ queryKey: ["my-ticket"] });
+    qc.invalidateQueries({ queryKey: ["my-rsvps"] });
   };
 
 
