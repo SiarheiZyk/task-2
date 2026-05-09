@@ -44,6 +44,7 @@ type EventRow = {
   status: "draft" | "published" | "cancelled";
   visibility: "public" | "unlisted" | "private";
   capacity: number | null;
+  timezone: string;
 };
 
 type Counts = { going: number; waitlisted: number; checked_in: number };
