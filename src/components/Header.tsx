@@ -111,6 +111,7 @@ export function Header() {
             <Link to="/sign-in">Sign in</Link>
           </Button>
         )}
+        </div>
       </div>
     </header>
   );
