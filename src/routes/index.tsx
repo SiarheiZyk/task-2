@@ -352,6 +352,22 @@ function EventCardItem({ event, myStatus }: { event: EventCard; myStatus?: RsvpS
   );
 }
 
+function StatusBadge({ status }: { status: RsvpStatus }) {
+  const config =
+    status === "going"
+      ? { Icon: CheckCircle2, label: "Going", cls: "bg-emerald-600 text-white" }
+      : status === "waitlisted"
+        ? { Icon: Clock, label: "Waitlisted", cls: "bg-amber-500 text-white" }
+        : { Icon: XCircle, label: "Cancelled", cls: "bg-muted text-muted-foreground" };
+  const { Icon, label, cls } = config;
+  return (
+    <Badge className={cn("absolute right-3 top-3 gap-1 shadow-sm", cls)}>
+      <Icon className="h-3 w-3" />
+      {label}
+    </Badge>
+  );
+}
+
 function CardSkeleton() {
   return (
     <Card className="overflow-hidden rounded-xl">
