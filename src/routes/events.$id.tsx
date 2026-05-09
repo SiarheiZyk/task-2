@@ -260,19 +260,6 @@ function EventPage() {
     qc.invalidateQueries({ queryKey: ["my-ticket"] });
   };
 
-  const handleCancel = async () => {
-    if (!myRsvp) return;
-    setSubmitting(true);
-    const { error: delErr } = await supabase.from("rsvps").delete().eq("id", myRsvp.id);
-    setSubmitting(false);
-    if (delErr) {
-      toast.error(delErr.message);
-      return;
-    }
-    toast.success("RSVP cancelled");
-    qc.invalidateQueries({ queryKey: ["my-rsvp", id] });
-    qc.invalidateQueries({ queryKey: ["event-going-count", id] });
-  };
 
   return (
     <article className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
