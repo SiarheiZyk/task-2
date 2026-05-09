@@ -89,6 +89,7 @@ function EditEventPage() {
       toast.error(error.message);
       return;
     }
+    await qc.invalidateQueries();
     toast.success("Event saved");
     navigate({ to: "/host/dashboard" });
   };
@@ -101,6 +102,7 @@ function EditEventPage() {
       toast.error(error.message);
       return;
     }
+    await qc.invalidateQueries();
     toast.success("Event unpublished");
     navigate({ to: "/host/dashboard" });
   };
@@ -131,6 +133,7 @@ function EditEventPage() {
       toast.error(error?.message ?? "Failed to duplicate");
       return;
     }
+    await qc.invalidateQueries();
     toast.success("Duplicated as draft");
     navigate({ to: "/host/events/$id/edit", params: { id: data.id } });
   };
