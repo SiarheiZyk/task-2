@@ -2,8 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Pagination, paginate } from "@/components/Pagination";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { format } from "date-fns";
-import { ArrowLeft, Calendar, Edit, LayoutDashboard, Search, ScanLine } from "lucide-react";
+import { Calendar, Edit, LayoutDashboard, Search, ScanLine } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useRequireAuth } from "@/hooks/use-require-auth";
 import { useMyHosts } from "@/hooks/use-current-host";
@@ -11,6 +10,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { formatEventDateShort } from "@/lib/dates";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -32,6 +33,7 @@ type Row = {
   status: string;
   cover_image_url: string | null;
   host_id: string;
+  timezone: string;
 };
 
 function MyEventsPage() {
@@ -60,7 +62,7 @@ function MyEventsPage() {
     queryFn: async (): Promise<Row[]> => {
       const { data, error } = await supabase
         .from("events")
-        .select("id, title, start_at, end_at, status, cover_image_url, host_id")
+        .select("id, title, start_at, end_at, status, cover_image_url, host_id, timezone")
         .in("host_id", hostIds)
         .order("start_at", { ascending: false });
       if (error) throw error;
@@ -117,13 +119,7 @@ function MyEventsPage() {
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-      <Link
-        to="/"
-        className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
-      >
-        <ArrowLeft className="h-4 w-4" />
-        Back to events
-      </Link>
+      <Breadcrumbs items={[{ label: "My events" }]} />
       <h1 className="text-3xl font-semibold tracking-tight">My events</h1>
       <p className="mt-1 text-sm text-muted-foreground">
         All events from the hosts you're part of.
@@ -233,7 +229,7 @@ function MyEventsPage() {
                     </h3>
                   </Link>
                   <p className="mt-1 text-xs text-muted-foreground">
-                    {format(new Date(e.start_at), "MMM d, yyyy h:mm a")} ·{" "}
+                    {formatEventDateShort(e.start_at, e.timezone)} ·{" "}
                     {nameByHost.get(e.host_id)}
                   </p>
                   <div className="mt-3 flex flex-wrap gap-2">

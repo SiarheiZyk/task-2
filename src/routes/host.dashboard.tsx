@@ -1,10 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { format } from "date-fns";
 import { toast } from "sonner";
 import {
-  ArrowLeft,
   Calendar,
   Copy,
   Download,
@@ -33,6 +31,8 @@ import { TeamSection } from "@/components/TeamSection";
 import { HostModeration } from "@/components/HostModeration";
 import { ReportsSection } from "@/components/ReportsSection";
 import { Pagination, paginate } from "@/components/Pagination";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { formatEventDateShort } from "@/lib/dates";
 
 export const Route = createFileRoute("/host/dashboard")({
   head: () => ({ meta: [{ title: "Host dashboard — Gather" }] }),
@@ -258,13 +258,7 @@ function HostDashboard() {
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-      <Link
-        to="/"
-        className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
-      >
-        <ArrowLeft className="h-4 w-4" />
-        Back to events
-      </Link>
+      <Breadcrumbs items={[{ label: "Host dashboard" }]} />
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <h1 className="text-3xl font-semibold tracking-tight">Host dashboard</h1>
@@ -395,7 +389,7 @@ function EventList({
                   {e.title}
                 </Link>
                 <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-                  <span>{format(new Date(e.start_at), "MMM d, yyyy h:mm a")}</span>
+                  <span>{formatEventDateShort(e.start_at, e.timezone)}</span>
                   <Badge variant="outline" className="rounded-md text-[10px] uppercase">
                     {e.status}
                   </Badge>

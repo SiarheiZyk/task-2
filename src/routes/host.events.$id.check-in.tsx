@@ -1,14 +1,15 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { toast } from "sonner";
-import { ArrowLeft, ScanLine, Undo2 } from "lucide-react";
+import { ScanLine, Undo2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useRequireAuth } from "@/hooks/use-require-auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 export const Route = createFileRoute("/host/events/$id/check-in")({
   head: () => ({ meta: [{ title: "Check-in — Gather" }] }),
@@ -24,7 +25,6 @@ type Recent = {
 function CheckInPage() {
   const { id } = Route.useParams();
   const { user, loading } = useRequireAuth();
-  const navigate = useNavigate();
   const qc = useQueryClient();
   const inputRef = useRef<HTMLInputElement>(null);
   const [code, setCode] = useState("");
@@ -211,13 +211,13 @@ function CheckInPage() {
 
   return (
     <section className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
-      <button
-        onClick={() => navigate({ to: "/host/dashboard" })}
-        className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
-      >
-        <ArrowLeft className="h-4 w-4" />
-        Back to dashboard
-      </button>
+      <Breadcrumbs
+        items={[
+          { label: "Host dashboard", to: "/host/dashboard" },
+          { label: event.title, to: "/events/$id", params: { id: event.id } },
+          { label: "Check-in" },
+        ]}
+      />
 
       <div className="rounded-2xl border border-border/60 bg-card p-6 shadow-sm">
         <div className="flex items-start justify-between gap-4">

@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, Copy, EyeOff } from "lucide-react";
+import { Copy, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useRequireAuth } from "@/hooks/use-require-auth";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { EventForm, toEventInsert, toFormValues } from "@/components/EventForm";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 export const Route = createFileRoute("/host/events/$id/edit")({
   head: () => ({ meta: [{ title: "Edit event — Gather" }] }),
@@ -135,13 +136,13 @@ function EditEventPage() {
 
   return (
     <section className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
-      <Link
-        to="/host/dashboard"
-        className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
-      >
-        <ArrowLeft className="h-4 w-4" />
-        Back to dashboard
-      </Link>
+      <Breadcrumbs
+        items={[
+          { label: "Host dashboard", to: "/host/dashboard" },
+          { label: event.title, to: "/events/$id", params: { id: event.id } },
+          { label: "Edit" },
+        ]}
+      />
       <h1 className="text-3xl font-semibold tracking-tight">Edit event</h1>
       <div className="mt-8">
         <EventForm
