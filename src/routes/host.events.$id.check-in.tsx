@@ -25,7 +25,7 @@ type Recent = {
 function CheckInPage() {
   const { id } = Route.useParams();
   const { user, loading } = useRequireAuth();
-  const navigate = useNavigate();
+  void useNavigate;
   const qc = useQueryClient();
   const inputRef = useRef<HTMLInputElement>(null);
   const [code, setCode] = useState("");
