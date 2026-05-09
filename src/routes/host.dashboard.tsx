@@ -329,6 +329,9 @@ function HostDashboard() {
         <TabsContent value="moderation" className="mt-6">
           {current && <HostModeration hostId={current.id} />}
         </TabsContent>
+        <TabsContent value="reports" className="mt-6">
+          {current && <ReportsSection hostId={current.id} />}
+        </TabsContent>
       </Tabs>
     </section>
   );
