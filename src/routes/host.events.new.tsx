@@ -74,13 +74,12 @@ function NewEventPage() {
 
   return (
     <section className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
-      <Link
-        to="/host/dashboard"
-        className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
-      >
-        <ArrowLeft className="h-4 w-4" />
-        Back to dashboard
-      </Link>
+      <Breadcrumbs
+        items={[
+          { label: "Host dashboard", to: "/host/dashboard" },
+          { label: "New event" },
+        ]}
+      />
       <h1 className="text-3xl font-semibold tracking-tight">Create event</h1>
       <p className="mt-1 text-sm text-muted-foreground">
         Hosting as <span className="font-medium text-foreground">{current?.name}</span>
