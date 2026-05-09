@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useRequireAuth } from "@/hooks/use-require-auth";
 import { useCurrentHost } from "@/hooks/use-current-host";
 import { Skeleton } from "@/components/ui/skeleton";
 import { EventForm, defaultValues, toEventInsert } from "@/components/EventForm";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 export const Route = createFileRoute("/host/events/new")({
   head: () => ({ meta: [{ title: "New event — Gather" }] }),
