@@ -114,6 +114,7 @@ function Explore() {
   const [page, setPage] = useState(1);
   const PAGE_SIZE = 9;
 
+  const { user } = useAuth();
   const { data, isLoading } = useEvents({
     search,
     location,
@@ -121,6 +122,7 @@ function Explore() {
     to: range?.to,
     includePast,
   });
+  const { data: rsvpMap } = useMyRsvpMap(user?.id);
 
   const events = data ?? [];
   useEffect(() => {
