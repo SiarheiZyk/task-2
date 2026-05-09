@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { CoverImage } from "@/components/CoverImage";
 import { formatEventDateShort } from "@/lib/dates";
 import {
   DropdownMenu,
