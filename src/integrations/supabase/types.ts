@@ -448,6 +448,7 @@ export type Database = {
         Returns: boolean
       }
       cancel_rsvp: { Args: { _rsvp_id: string }; Returns: undefined }
+      check_in_ticket: { Args: { _code: string }; Returns: Json }
       create_rsvp: {
         Args: { _event_id: string }
         Returns: {
@@ -473,6 +474,7 @@ export type Database = {
         Args: { _host_id: string; _user_id: string }
         Returns: boolean
       }
+      undo_check_in: { Args: { _ticket_id: string }; Returns: undefined }
     }
     Enums: {
       event_status: "draft" | "published"
