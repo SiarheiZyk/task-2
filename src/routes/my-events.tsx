@@ -76,6 +76,13 @@ function MyEventsPage() {
     return true;
   });
 
+  const PAGE_SIZE = 9;
+  const [page, setPage] = useState(1);
+  useEffect(() => {
+    setPage(1);
+  }, [search, from, to, hostFilter, filtered.length]);
+  const pageItems = paginate(filtered, page, PAGE_SIZE);
+
   const toggleHost = (id: string) => {
     setHostFilter((prev) => {
       const next = new Set(prev);
