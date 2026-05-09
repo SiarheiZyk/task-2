@@ -15,6 +15,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { TicketCard } from "@/components/TicketCard";
 import { EventGallery } from "@/components/EventGallery";
 import { ReportButton } from "@/components/ReportButton";
+import { CoverImage } from "@/components/CoverImage";
 import { EventFeedback } from "@/components/EventFeedback";
 
 type EventRow = {
@@ -281,19 +282,12 @@ function EventPage() {
       )}
 
       <div className="relative aspect-[16/7] w-full overflow-hidden rounded-2xl bg-muted shadow-[var(--shadow-md)]">
-        {event.cover_image_url ? (
-          <img
-            src={event.cover_image_url}
-            alt={event.title}
-            className="h-full w-full object-cover"
-          />
-        ) : (
-          <div
-            className="h-full w-full"
-            style={{ background: "var(--gradient-primary)" }}
-            aria-hidden
-          />
-        )}
+        <CoverImage
+          src={event.cover_image_url}
+          alt={event.title}
+          className="h-full w-full object-cover"
+          loading="eager"
+        />
         {ended && (
           <Badge variant="secondary" className="absolute left-4 top-4 shadow">
             Ended

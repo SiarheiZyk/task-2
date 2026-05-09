@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { CoverImage } from "@/components/CoverImage";
 import { formatEventDateShort } from "@/lib/dates";
 import {
   DropdownMenu,
@@ -198,18 +199,11 @@ function MyEventsPage() {
               >
                 <Link to="/events/$id" params={{ id: e.id }}>
                   <div className="aspect-[16/9] w-full overflow-hidden bg-muted">
-                    {e.cover_image_url ? (
-                      <img
-                        src={e.cover_image_url}
-                        alt=""
-                        className="h-full w-full object-cover"
-                      />
-                    ) : (
-                      <div
-                        className="h-full w-full"
-                        style={{ background: "var(--gradient-primary)" }}
-                      />
-                    )}
+                    <CoverImage
+                      src={e.cover_image_url}
+                      alt={e.title}
+                      className="h-full w-full object-cover"
+                    />
                   </div>
                 </Link>
                 <div className="p-4">
