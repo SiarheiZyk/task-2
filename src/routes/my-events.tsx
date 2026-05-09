@@ -33,6 +33,7 @@ type Row = {
   status: string;
   cover_image_url: string | null;
   host_id: string;
+  timezone: string;
 };
 
 function MyEventsPage() {
