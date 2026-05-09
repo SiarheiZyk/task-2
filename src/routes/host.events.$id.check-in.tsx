@@ -212,13 +212,13 @@ function CheckInPage() {
 
   return (
     <section className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
-      <button
-        onClick={() => navigate({ to: "/host/dashboard" })}
-        className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
-      >
-        <ArrowLeft className="h-4 w-4" />
-        Back to dashboard
-      </button>
+      <Breadcrumbs
+        items={[
+          { label: "Host dashboard", to: "/host/dashboard" },
+          { label: event.title, to: "/events/$id", params: { id: event.id } },
+          { label: "Check-in" },
+        ]}
+      />
 
       <div className="rounded-2xl border border-border/60 bg-card p-6 shadow-sm">
         <div className="flex items-start justify-between gap-4">
