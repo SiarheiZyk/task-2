@@ -87,6 +87,7 @@ function ProfilePage() {
       toast.error(error.message);
       return;
     }
+    await qc.invalidateQueries();
     toast.success("Profile updated");
   };
 
