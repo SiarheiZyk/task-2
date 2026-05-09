@@ -263,7 +263,7 @@ function Filters(props: {
   );
 }
 
-function EventCardItem({ event }: { event: EventCard }) {
+function EventCardItem({ event, myStatus }: { event: EventCard; myStatus?: RsvpStatus }) {
   const start = new Date(event.start_at);
   const ended = (event.end_at ? new Date(event.end_at) : start) < new Date();
   const tzAbbr = (() => {
