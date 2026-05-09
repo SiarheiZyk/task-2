@@ -120,6 +120,7 @@ function NewHostPage() {
     } else {
       toast.success("Host created!");
     }
+    await qc.invalidateQueries();
     navigate({ to: "/host/dashboard" });
   };
 
