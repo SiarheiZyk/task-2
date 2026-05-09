@@ -4,8 +4,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
-import { CalendarIcon, MapPin, Search, Globe } from "lucide-react";
+import { CalendarIcon, MapPin, Search, Globe, CheckCircle2, Clock, XCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/use-auth";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
@@ -17,6 +18,25 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import type { DateRange } from "react-day-picker";
+
+type RsvpStatus = "going" | "waitlisted" | "cancelled";
+
+function useMyRsvpMap(userId?: string) {
+  return useQuery({
+    queryKey: ["my-rsvp-map", userId],
+    enabled: !!userId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("rsvps")
+        .select("event_id, status")
+        .eq("user_id", userId!);
+      if (error) throw error;
+      const map: Record<string, RsvpStatus> = {};
+      for (const r of data ?? []) map[r.event_id as string] = r.status as RsvpStatus;
+      return map;
+    },
+  });
+}
 
 export const Route = createFileRoute("/")({
   head: () => ({
