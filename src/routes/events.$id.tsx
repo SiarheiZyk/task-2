@@ -313,7 +313,8 @@ function EventPage() {
 
           {event.hosts && (
             <Link
-              to="/"
+              to="/hosts/$slug"
+              params={{ slug: event.hosts.slug }}
               className="mt-4 inline-flex items-center gap-2 text-sm text-muted-foreground transition hover:text-foreground"
               aria-label={`Host ${event.hosts.name}`}
             >

@@ -80,10 +80,10 @@ export function Header() {
               <DropdownMenuItem onSelect={() => navigate({ to: "/my-tickets" })}>
                 My Tickets
               </DropdownMenuItem>
-              <DropdownMenuItem onSelect={() => navigate({ to: "/" })}>
+              <DropdownMenuItem onSelect={() => navigate({ to: "/host/dashboard" })}>
                 My Events
               </DropdownMenuItem>
-              <DropdownMenuItem onSelect={() => navigate({ to: "/" })}>
+              <DropdownMenuItem onSelect={() => navigate({ to: "/host/new" })}>
                 Become a Host
               </DropdownMenuItem>
               <DropdownMenuSeparator />
