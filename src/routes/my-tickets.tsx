@@ -29,7 +29,7 @@ type Row = {
     online_link: string | null;
     cover_image_url: string | null;
   } | null;
-  tickets: { id: string; code: string }[] | null;
+  tickets: { id: string; code: string } | { id: string; code: string }[] | null;
 };
 
 function useMyRsvps(userId?: string) {
