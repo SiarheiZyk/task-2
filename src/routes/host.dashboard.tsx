@@ -286,6 +286,7 @@ function HostDashboard() {
           <TabsTrigger value="past">Past ({past.length})</TabsTrigger>
           <TabsTrigger value="drafts">Drafts ({drafts.length})</TabsTrigger>
           <TabsTrigger value="team">Team</TabsTrigger>
+          <TabsTrigger value="moderation">Moderation</TabsTrigger>
         </TabsList>
         <TabsContent value="upcoming" className="mt-6">
           <EventList
