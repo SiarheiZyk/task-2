@@ -2,8 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Pagination, paginate } from "@/components/Pagination";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { format } from "date-fns";
-import { ArrowLeft, Calendar, Edit, LayoutDashboard, Search, ScanLine } from "lucide-react";
+import { Calendar, Edit, LayoutDashboard, Search, ScanLine } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useRequireAuth } from "@/hooks/use-require-auth";
 import { useMyHosts } from "@/hooks/use-current-host";
@@ -11,6 +10,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { formatEventDateShort } from "@/lib/dates";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
