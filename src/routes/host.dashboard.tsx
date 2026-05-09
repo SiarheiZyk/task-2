@@ -30,6 +30,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { TeamSection } from "@/components/TeamSection";
+import { HostModeration } from "@/components/HostModeration";
 
 export const Route = createFileRoute("/host/dashboard")({
   head: () => ({ meta: [{ title: "Host dashboard — Gather" }] }),
@@ -285,6 +286,7 @@ function HostDashboard() {
           <TabsTrigger value="past">Past ({past.length})</TabsTrigger>
           <TabsTrigger value="drafts">Drafts ({drafts.length})</TabsTrigger>
           <TabsTrigger value="team">Team</TabsTrigger>
+          <TabsTrigger value="moderation">Moderation</TabsTrigger>
         </TabsList>
         <TabsContent value="upcoming" className="mt-6">
           <EventList
@@ -321,6 +323,9 @@ function HostDashboard() {
         </TabsContent>
         <TabsContent value="team" className="mt-6">
           {current && <TeamSection hostId={current.id} isOwner={canEdit} />}
+        </TabsContent>
+        <TabsContent value="moderation" className="mt-6">
+          {current && <HostModeration hostId={current.id} />}
         </TabsContent>
       </Tabs>
     </section>

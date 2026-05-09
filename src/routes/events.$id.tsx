@@ -13,6 +13,8 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TicketCard } from "@/components/TicketCard";
+import { EventGallery } from "@/components/EventGallery";
+import { EventFeedback } from "@/components/EventFeedback";
 
 type EventRow = {
   id: string;
@@ -376,6 +378,24 @@ function EventPage() {
             <div className="prose prose-neutral mt-8 max-w-none dark:prose-invert">
               <ReactMarkdown>{event.description}</ReactMarkdown>
             </div>
+          )}
+
+          {ended && (
+            <>
+              <EventGallery
+                eventId={event.id}
+                userId={user?.id}
+                canUpload={myRsvp?.status === "going"}
+              />
+              <EventFeedback
+                eventId={event.id}
+                userId={user?.id}
+                canSubmit={myRsvp?.status === "going"}
+                showComments={
+                  event.status === "published" && event.visibility === "public"
+                }
+              />
+            </>
           )}
         </div>
 
