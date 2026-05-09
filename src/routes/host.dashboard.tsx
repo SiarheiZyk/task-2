@@ -32,6 +32,7 @@ import {
 import { TeamSection } from "@/components/TeamSection";
 import { HostModeration } from "@/components/HostModeration";
 import { ReportsSection } from "@/components/ReportsSection";
+import { Pagination, paginate } from "@/components/Pagination";
 
 export const Route = createFileRoute("/host/dashboard")({
   head: () => ({ meta: [{ title: "Host dashboard — Gather" }] }),
