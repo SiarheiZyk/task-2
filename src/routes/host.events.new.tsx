@@ -18,6 +18,7 @@ function NewEventPage() {
   const { user, loading } = useRequireAuth();
   const { current, hosts, isLoading } = useCurrentHost();
   const navigate = useNavigate();
+  const qc = useQueryClient();
   const [submitting, setSubmitting] = useState(false);
 
   if (loading || !user || isLoading) {
