@@ -15,6 +15,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { TicketCard } from "@/components/TicketCard";
 import { EventGallery } from "@/components/EventGallery";
 import { ReportButton } from "@/components/ReportButton";
+import { CoverImage } from "@/components/CoverImage";
 import { EventFeedback } from "@/components/EventFeedback";
 
 type EventRow = {
