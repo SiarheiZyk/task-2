@@ -19,6 +19,7 @@ function EditEventPage() {
   const { id } = Route.useParams();
   const { user, loading } = useRequireAuth();
   const navigate = useNavigate();
+  const qc = useQueryClient();
   const [submitting, setSubmitting] = useState(false);
 
   const { data: event, isLoading } = useQuery({
