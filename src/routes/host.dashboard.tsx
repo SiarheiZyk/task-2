@@ -389,7 +389,7 @@ function EventList({
                   {e.title}
                 </Link>
                 <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-                  <span>{format(new Date(e.start_at), "MMM d, yyyy h:mm a")}</span>
+                  <span>{formatEventDateShort(e.start_at, e.timezone)}</span>
                   <Badge variant="outline" className="rounded-md text-[10px] uppercase">
                     {e.status}
                   </Badge>
