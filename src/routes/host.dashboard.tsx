@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { TeamSection } from "@/components/TeamSection";
 import { HostModeration } from "@/components/HostModeration";
+import { ReportsSection } from "@/components/ReportsSection";
 
 export const Route = createFileRoute("/host/dashboard")({
   head: () => ({ meta: [{ title: "Host dashboard — Gather" }] }),
