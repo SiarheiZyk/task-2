@@ -354,6 +354,13 @@ function EventList({
   onDuplicate: (e: EventRow) => void;
   onExport: (e: EventRow) => void;
 }) {
+  const PAGE_SIZE = 8;
+  const [page, setPage] = useState(1);
+  useEffect(() => {
+    setPage(1);
+  }, [events.length]);
+  const pageItems = paginate(events, page, PAGE_SIZE);
+
   if (isLoading) return <Skeleton className="h-48 w-full rounded-2xl" />;
   if (events.length === 0) {
     return (
