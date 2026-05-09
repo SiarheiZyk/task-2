@@ -48,8 +48,14 @@ function NewEventPage() {
   const canEdit = current?.role === "host";
 
   const handleSubmit = async (values: ReturnType<typeof defaultValues>, status: "draft" | "published") => {
-    if (!current) return toast.error("Select a host");
-    if (!canEdit) return toast.error("Only hosts can create events");
+    if (!current) {
+      toast.error("Select a host");
+      return;
+    }
+    if (!canEdit) {
+      toast.error("Only hosts can create events");
+      return;
+    }
     setSubmitting(true);
     const payload = toEventInsert(values, current.id, status);
     const { data, error } = await supabase
@@ -58,7 +64,10 @@ function NewEventPage() {
       .select("id")
       .single();
     setSubmitting(false);
-    if (error || !data) return toast.error(error?.message ?? "Failed to create event");
+    if (error || !data) {
+      toast.error(error?.message ?? "Failed to create event");
+      return;
+    }
     toast.success(status === "published" ? "Event published" : "Draft saved");
     navigate({ to: "/host/dashboard" });
   };

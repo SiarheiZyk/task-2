@@ -83,7 +83,10 @@ function EditEventPage() {
     const payload = toEventInsert(values, event.host_id, status);
     const { error } = await supabase.from("events").update(payload).eq("id", event.id);
     setSubmitting(false);
-    if (error) return toast.error(error.message);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     toast.success("Event saved");
     navigate({ to: "/host/dashboard" });
   };
@@ -92,7 +95,10 @@ function EditEventPage() {
     setSubmitting(true);
     const { error } = await supabase.from("events").update({ status: "draft" }).eq("id", event.id);
     setSubmitting(false);
-    if (error) return toast.error(error.message);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     toast.success("Event unpublished");
     navigate({ to: "/host/dashboard" });
   };
@@ -119,7 +125,10 @@ function EditEventPage() {
       .select("id")
       .single();
     setSubmitting(false);
-    if (error || !data) return toast.error(error?.message ?? "Failed to duplicate");
+    if (error || !data) {
+      toast.error(error?.message ?? "Failed to duplicate");
+      return;
+    }
     toast.success("Duplicated as draft");
     navigate({ to: "/host/events/$id/edit", params: { id: data.id } });
   };
