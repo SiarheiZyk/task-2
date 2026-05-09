@@ -461,6 +461,14 @@ function EventList({
           );
         })}
       </ul>
+      <div className="px-5 pb-4">
+        <Pagination
+          page={page}
+          pageSize={PAGE_SIZE}
+          total={events.length}
+          onPageChange={setPage}
+        />
+      </div>
     </div>
   );
 }
