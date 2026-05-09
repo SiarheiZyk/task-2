@@ -198,18 +198,11 @@ function MyEventsPage() {
               >
                 <Link to="/events/$id" params={{ id: e.id }}>
                   <div className="aspect-[16/9] w-full overflow-hidden bg-muted">
-                    {e.cover_image_url ? (
-                      <img
-                        src={e.cover_image_url}
-                        alt=""
-                        className="h-full w-full object-cover"
-                      />
-                    ) : (
-                      <div
-                        className="h-full w-full"
-                        style={{ background: "var(--gradient-primary)" }}
-                      />
-                    )}
+                    <CoverImage
+                      src={e.cover_image_url}
+                      alt={e.title}
+                      className="h-full w-full object-cover"
+                    />
                   </div>
                 </Link>
                 <div className="p-4">
