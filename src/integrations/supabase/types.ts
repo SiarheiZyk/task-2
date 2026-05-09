@@ -467,6 +467,7 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      event_going_count: { Args: { _event_id: string }; Returns: number }
       export_event_rsvps: {
         Args: { _event_id: string }
         Returns: {
