@@ -314,9 +314,12 @@ function EventPage() {
           </div>
           <div className="mt-2 flex items-start justify-between gap-3">
             <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">{event.title}</h1>
-            {user && !isMember && (
-              <ReportButton targetType="event" targetId={event.id} userId={user.id} />
-            )}
+            <div className="flex shrink-0 items-center gap-1">
+              <ShareButton title={event.title} />
+              {user && !isMember && (
+                <ReportButton targetType="event" targetId={event.id} userId={user.id} />
+              )}
+            </div>
           </div>
 
           {event.hosts && (
