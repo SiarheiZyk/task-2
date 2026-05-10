@@ -229,7 +229,7 @@ function HostDashboard() {
       }
     };
 
-    const header = ["Name", "Email", "RSVP Status", "Waitlist Position", "Checked-in Time"];
+    const header = ["Name", "Email", "RSVP Status", "Waitlist Position", "Check-in Time"];
     const lines = [
       header.map(escape).join(","),
       ...rows.map((r) =>
