@@ -60,7 +60,13 @@ export function EventFeedback({
       comment: comment.trim() || null,
     });
     setSubmitting(false);
-    if (error) return toast.error(error.message);
+    if (error) {
+      const msg =
+        error.code === "23505"
+          ? "You've already submitted feedback for this event"
+          : error.message;
+      return toast.error(msg);
+    }
     toast.success("Thanks for your feedback!");
     setRating(0);
     setComment("");
