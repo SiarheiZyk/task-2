@@ -412,7 +412,7 @@ function EventList({
                   <span className="font-medium text-foreground">{c.checked_in}</span> checked-in
                 </span>
               </div>
-              {canEdit && (
+              {canEdit ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="icon" className="rounded-xl">
@@ -450,6 +450,12 @@ function EventList({
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
+              ) : (
+                <Button asChild size="sm" variant="outline" className="rounded-xl">
+                  <Link to="/host/events/$id/check-in" params={{ id: e.id }}>
+                    <ScanLine className="mr-1.5 h-3.5 w-3.5" /> Check-in
+                  </Link>
+                </Button>
               )}
             </li>
           );
