@@ -149,6 +149,13 @@ function CheckInPage() {
     e.preventDefault();
     const value = code.trim();
     if (!value || submitting) return;
+    const uuidRe = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!uuidRe.test(value)) {
+      toast.error("Invalid code");
+      setCode("");
+      inputRef.current?.focus();
+      return;
+    }
     setSubmitting(true);
     try {
       const { data, error } = await supabase.rpc("check_in_ticket", { _code: value });
