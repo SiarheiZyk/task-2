@@ -59,27 +59,6 @@ export function Header() {
           </span>
         </Link>
 
-        <nav className="hidden flex-1 items-center justify-center gap-1 md:flex">
-          {user && (
-            <>
-              <Link
-                to="/my-tickets"
-                className="rounded-lg px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-                activeProps={{ className: "rounded-lg px-3 py-1.5 text-sm font-medium bg-muted text-foreground" }}
-              >
-                My Tickets
-              </Link>
-              <Link
-                to="/host/dashboard"
-                className="rounded-lg px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-                activeProps={{ className: "rounded-lg px-3 py-1.5 text-sm font-medium bg-muted text-foreground" }}
-              >
-                Host
-              </Link>
-            </>
-          )}
-        </nav>
-
         <div className="flex items-center gap-3">
           {user && onHostRoute && <HostSwitcher />}
         {user ? (
