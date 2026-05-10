@@ -1,0 +1,8 @@
+name,email,status,waitlist_position,checked_in_at,created_at
+Alice Nguyen,alice@example.com,going,,2026-02-08T20:22:14.000Z,2026-01-20T18:03:11.000Z
+Ben Carter,ben@example.com,going,,2026-02-08T20:24:51.000Z,2026-01-20T18:05:42.000Z
+Carla Rossi,carla@example.com,going,,2026-02-08T20:31:08.000Z,2026-01-21T09:11:55.000Z
+Dan Müller,dan@example.com,going,,,2026-01-22T14:48:20.000Z
+Eva Schmidt,eva@example.com,going,,2026-02-08T20:18:03.000Z,2026-01-23T07:32:09.000Z
+Frank Obi,frank@example.com,waitlisted,1,,2026-02-01T11:14:00.000Z
+Grace Park,grace@example.com,waitlisted,2,,2026-02-03T16:42:27.000Z

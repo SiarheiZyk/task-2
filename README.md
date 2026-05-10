@@ -1,4 +1,6 @@
-# Gather — Usage Guide
+# Task 2 for AI Challenge 2.0
+
+## Gather app — Usage Guide
 
 Gather is a free event hosting platform (think a simpler lu.ma). This guide
 walks through the four main flows end-to-end so you can use the deployed app
@@ -221,21 +223,21 @@ For each event you can:
 
 ## Quick route reference
 
-| Route | Purpose |
-|---|---|
-| `/` | Explore upcoming public events |
-| `/events/:id` | Event details + RSVP |
-| `/hosts/:slug` | Public host page |
-| `/sign-in` | Auth (preserves `redirect_to`) |
-| `/my-tickets` | Your QR tickets |
-| `/my-events` | RSVPs you've made |
-| `/profile` | Your profile settings |
-| `/host/new` | Create a host |
-| `/host/dashboard` | Manage events, team, reports, exports |
-| `/host/events/new` | Create an event |
-| `/host/events/:id/edit` | Edit an event |
-| `/host/events/:id/check-in` | Check guests in |
-| `/invite/:token` | Accept a host team invite |
+| Route                       | Purpose                               |
+| --------------------------- | ------------------------------------- |
+| `/`                         | Explore upcoming public events        |
+| `/events/:id`               | Event details + RSVP                  |
+| `/hosts/:slug`              | Public host page                      |
+| `/sign-in`                  | Auth (preserves `redirect_to`)        |
+| `/my-tickets`               | Your QR tickets                       |
+| `/my-events`                | RSVPs you've made                     |
+| `/profile`                  | Your profile settings                 |
+| `/host/new`                 | Create a host                         |
+| `/host/dashboard`           | Manage events, team, reports, exports |
+| `/host/events/new`          | Create an event                       |
+| `/host/events/:id/edit`     | Edit an event                         |
+| `/host/events/:id/check-in` | Check guests in                       |
+| `/invite/:token`            | Accept a host team invite             |
 
 ---
 
